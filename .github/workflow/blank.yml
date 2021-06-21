@@ -1,0 +1,23 @@
+ame: 'Commit Message Check'
+on:
+  pull_request:
+    branches: [main]
+    types:
+      - opened
+      - reopened
+
+jobs:
+  unit_test:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:        
+    - name: SonarQube checkout
+      uses: actions/checkout@v1
+      with:
+        # Disabling shallow clone is recommended for improving relevancy of reporting
+        fetch-depth: 0
+    - name: Analyze with SonarCloud
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
