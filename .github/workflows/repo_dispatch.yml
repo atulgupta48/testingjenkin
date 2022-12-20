@@ -5,18 +5,20 @@ on:
 
 jobs:
   run_if_failure:
-    if: ${{ !github.event.client_payload.passed }}
+    if: ${{ github.event.client_payload.status }} == 'Executing'
     runs-on: ubuntu-latest
     steps:
       - env:
           MESSAGE: ${{ github.event.client_payload.message }}
-        run: echo $MESSAGE
+        run: |
+          echo $MESSAGE
+          exit 1
   run_if_success:
-    if: ${{ github.event.client_payload.passed }}
+    if: ${{ github.event.client_payload.status }} == 'Succecced'
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "The pipeline is still running"
-          exit 1
+          echo "The pipeline ran successfully"
+
             
 
