@@ -25,10 +25,11 @@ jobs:
       id: jobs
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        job_name: Explore-GitHub-Actions
+        job_name: Status check execution
         per_page: 30
     - name: Output Current Job Log URL
       run: |
         echo ${{ steps.jobs.outputs.html_url }}
+        exit 1
         
       
