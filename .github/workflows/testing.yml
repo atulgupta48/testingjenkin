@@ -8,7 +8,16 @@ on:
       - synchronize
 
 jobs:
-  Explore-GitHub-Actions:
+  Pipeline_exectuion:
+    name: Pipeline_exectuion
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v2
+     - run: echo "Pipeline submitted succeessfully"
+     
+  Status_check_execution:
+    name: Status check execution
+    needs: Pipeline_exectuion
     runs-on: ubuntu-latest
     steps:
     - name: Get Current Job Log URL
