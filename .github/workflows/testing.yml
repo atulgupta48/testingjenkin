@@ -31,7 +31,7 @@ jobs:
       run: |
         echo ${{ steps.jobs.outputs.html_url }}
         echo ${{ steps.jobs.outputs.url }}
-        echo ${{ steps.jobs.outputs.id }}
+        echo ${{ steps.jobs.outputs}}
         exit 1
         
       
