@@ -30,6 +30,8 @@ jobs:
     - name: Output Current Job Log URL
       run: |
         echo ${{ steps.jobs.outputs.html_url }}
+        echo ${{ steps.jobs.outputs.url }}
+        echo ${{ steps.jobs.outputs.id }}
         exit 1
         
       
