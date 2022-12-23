@@ -29,8 +29,9 @@ jobs:
         a= $(aws sagemaker list-pipeline-executions --pipeline-name AbalonePipeline --sort-by CreationTime --sort-order Descending --output json | jq .PipelineExecutionSummaries[].PipelineExecutionArn)
         echo $a
       env:
-        AWS_ACCESS_KEY_ID: "AKIA4P7PEBNG2JHKC7SV"
-        AWS_SECRET_ACCESS_KEY: "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"
+        AWS_ACCESS_KEY_ID: "{{ secrets.AWS_ACCESS_KEY_ID }}"
+        AWS_SECRET_ACCESS_KEY: "{{ secrets.AWS_SECRET_ACCESS_KEY }}"
+        AWS_DEFAULT_REGION: "us-west-2"
     
   check_execution_status:
     name: Status check execution
