@@ -14,10 +14,27 @@ jobs:
     steps:
      - uses: actions/checkout@v2
      - run: echo "Pipeline submitted succeessfully"
-     
-  Status_check_execution:
-    name: Status check execution
+   
+  get_pipeline_arn:
+    name: get_pipeline_run
     needs: Pipeline_exectuion
+    runs-on: ubuntu-latest
+    outputs:
+      arn: $ {{ steps.Fetch_Arn.outputs.a }}
+    steps:
+    - uses: actions/checkout@v2
+    - id: Fetch_Arn
+      name: Fetch SagemakerArn
+      run: |
+        a= $(aws sagemaker list-pipeline-executions --pipeline-name AbalonePipeline --sort-by CreationTime --sort-order Descending --output json | jq .PipelineExecutionSummaries[].PipelineExecutionArn)
+        echo $a
+      env:
+        AWS_ACCESS_KEY_ID: "AKIA4P7PEBNG2JHKC7SV"
+        AWS_SECRET_ACCESS_KEY: "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"
+    
+  check_execution_status:
+    name: Status check execution
+    needs: get_pipeline_arn
     runs-on: ubuntu-latest
     steps:
     - name : get the status
@@ -25,18 +42,5 @@ jobs:
            if value blank insert item
            else if status is success  exit 0
            else exit 1
-    - name: Get Current Job Log URL
-      uses: Tiryoh/gha-jobid-action@v0
-      id: jobs
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        job_name: Status check execution
-        per_page: 30
-    - name: Output Current Job Log URL
-      run: |
-        echo ${{ steps.jobs.outputs.html_url }}
-        echo ${{ steps.jobs.outputs.url }}
-        echo ${{ steps.jobs.outputs}}
-        exit 1
       
       
